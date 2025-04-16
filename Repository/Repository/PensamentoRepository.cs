@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data.Common;
 using AutoMapper;
 using Dapper;
 using Domain.Models;
 using Infrastructure.Interface;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Infrastructure.Repository
 {
