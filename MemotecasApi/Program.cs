@@ -1,4 +1,6 @@
 using System.Data;
+using Application.Interface;
+using Application.Services;
 using Microsoft.Data.SqlClient;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,7 +21,9 @@ builder.Services.AddScoped<IDbConnection>(provider =>
 
 
 #region SERVICES
-builder.Services.AddScoped<IPernsamentoService, PensamentoService>();
+builder.Services.AddScoped<IPensamentoService, PensamentoService>();
+
+#endregion
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

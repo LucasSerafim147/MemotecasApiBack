@@ -11,8 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Domain\Domain.csproj" />
-    <ProjectReference Include="..\MemotecasApi\MemotecasApi.csproj" />
+    <ProjectReference Include="..\Repository\Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
