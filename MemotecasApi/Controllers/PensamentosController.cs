@@ -50,7 +50,7 @@ namespace MemotecasApi.Controllers
         }
 
         [HttpPut("pensamento")]
-        public async Task<IActionResult> AtualizarPensamento(int id ,Pensamentos pensamentos)
+        public async Task<IActionResult> AtualizarPensamento(int id,Pensamentos pensamentos)
         {
             try
             {
