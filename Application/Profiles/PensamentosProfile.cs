@@ -7,6 +7,8 @@ namespace Application.Profiles
     public class PensamentosProfile : Profile
     {
         public PensamentosProfile() {
+
+
             CreateMap<PensamentosDto, Pensamentos>();
 
         }
