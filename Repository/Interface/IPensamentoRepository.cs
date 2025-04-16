@@ -12,7 +12,7 @@ namespace Infrastructure.Interface
         Task<bool> AdicionarPensamento(Pensamentos pensamentos);
         Task<bool> RemoverPensamento(int id);
         Task<bool> AtualizarPensamento(Pensamentos pensamentos);
-        Task<bool> RetornarPensamento();
+        Task<List<Pensamentos>> RetornarPensamento();
 
 
     }
