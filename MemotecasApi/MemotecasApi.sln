@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35806.99 d17.13
+VisualStudioVersion = 17.13.35806.99
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemotecasApi", "MemotecasApi.csproj", "{DC33B489-8276-4412-82A1-0DC07A4AAD81}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "..\Domain\Domain.csproj", "{D7D5D892-F164-48CE-8C83-07CC5B83DD38}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{DC33B489-8276-4412-82A1-0DC07A4AAD81}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC33B489-8276-4412-82A1-0DC07A4AAD81}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC33B489-8276-4412-82A1-0DC07A4AAD81}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7D5D892-F164-48CE-8C83-07CC5B83DD38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7D5D892-F164-48CE-8C83-07CC5B83DD38}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7D5D892-F164-48CE-8C83-07CC5B83DD38}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7D5D892-F164-48CE-8C83-07CC5B83DD38}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
