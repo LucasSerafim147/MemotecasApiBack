@@ -1,6 +1,7 @@
 using System.Data;
 using System.Data.Common;
 using Application.Interface;
+using Application.Profiles;
 using Application.Services;
 using Infrastructure.Interface;
 using Infrastructure.Repository;
@@ -11,16 +12,17 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 
-builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddAutoMapper(typeof(PensamentosProfile));
 
 string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-builder.Services.AddScoped<DbConnection>(provider =>
+builder.Services.AddScoped<IDbConnection>(provider =>
 {
     SqlConnection connection = new SqlConnection(connectionString);
     connection.Open();
     return connection;
 });
+
 
 
 #region SERVICES

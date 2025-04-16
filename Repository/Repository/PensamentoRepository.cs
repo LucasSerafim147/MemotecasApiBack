@@ -1,4 +1,5 @@
-﻿using System.Data.Common;
+﻿using System.Data;
+using System.Data.Common;
 using AutoMapper;
 using Dapper;
 using Domain.Models;
@@ -9,16 +10,16 @@ namespace Infrastructure.Repository
     public class PensamentoRepository : IPensamentoRepository
     {
 
-        private readonly DbConnection _conn;
+        private readonly IDbConnection _conn;
         private readonly IMapper _mapper;
 
-        public PensamentoRepository(DbConnection conn, IMapper mapper)
+        public PensamentoRepository(IDbConnection conn, IMapper mapper)
         {
             _conn = conn;
             _mapper = mapper;
         }
 
-        public async Task<int> AdicionarPensamento(Pensamentos pensamentos)
+        public async Task<bool> AdicionarPensamento(Pensamentos pensamentos)
         {
             try
             {
@@ -31,13 +32,12 @@ namespace Infrastructure.Repository
                     MODELO = pensamentos.Modelos
                 };
 
-                if (_conn.State != System.Data.ConnectionState.Open)
-                    await _conn.OpenAsync();
+                   
 
-                var id = await _conn.ExecuteScalarAsync<int>(sql, parametros);
-                await _conn.CloseAsync();
+                var resultado = await _conn.ExecuteScalarAsync<bool>(sql, parametros);
+                
 
-                return id;
+                return resultado;
             }
             catch (Exception)
             {

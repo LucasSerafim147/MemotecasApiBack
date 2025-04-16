@@ -12,18 +12,18 @@ namespace MemotecasApi.Controllers
     {
         private readonly IPensamentoService _service;
 
-        public PensamentosController(IPensamentoService service)
+        public  PensamentosController(IPensamentoService service)
         {
             _service = service;
         }
 
 
         [HttpPost("pensamento")]
-        public IActionResult AdicionarPensamento([FromBody] PensamentosDto pensamentos)
+        public async Task<IActionResult> AdicionarPensamento([FromBody] PensamentosDto pensamentos)
         {
             try
             {
-                var id = _service.AdicionarPensamento(pensamentos);
+                var id =  await _service.AdicionarPensamento(pensamentos);
                 return CreatedAtAction(nameof(AdicionarPensamento), new { id }, pensamentos);
             }
             catch (ArgumentException ex)
@@ -36,11 +36,11 @@ namespace MemotecasApi.Controllers
             }
         }
         [HttpGet("pensamento")]
-        public IActionResult RetornarPensamentos()
+        public async Task<IActionResult> RetornarPensamentos()
         {
             try
             {
-                return Ok(_service.RetornarPensamento());
+                return Ok( await _service.RetornarPensamento());
             }
             catch (Exception ex)
             {
@@ -50,11 +50,11 @@ namespace MemotecasApi.Controllers
         }
 
         [HttpPut("pensamento")]
-        public IActionResult AtualizarPensamento(int id ,Pensamentos pensamentos)
+        public async Task<IActionResult> AtualizarPensamento(int id ,Pensamentos pensamentos)
         {
             try
             {
-                var pensamento = _service.AtualizarPensamento(id, pensamentos);
+                var pensamento =  await _service.AtualizarPensamento(id, pensamentos);
                 return Ok(pensamento);
             }
             catch (Exception)
@@ -65,11 +65,11 @@ namespace MemotecasApi.Controllers
         }
 
         [HttpDelete]
-        public IActionResult DeletarPensamento(int id)
+        public async Task<IActionResult> DeletarPensamento(int id)
         {
             try
             {
-                var pensamento = _service.RemoverPensamento(id);
+                var pensamento = await _service.RemoverPensamento(id);
                 return Ok(pensamento);
             }
             catch (Exception)

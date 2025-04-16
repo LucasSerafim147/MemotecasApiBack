@@ -17,7 +17,7 @@ public class PensamentoService : IPensamentoService
         _mapper = mapper;
     }
 
-    public async Task<int> AdicionarPensamento(PensamentosDto pensamentosDto)
+    public async Task<bool> AdicionarPensamento(PensamentosDto pensamentosDto)
     {
         try
         {
