@@ -17,6 +17,10 @@ builder.Services.AddScoped<IDbConnection>(provider =>
     return connection;
 });
 
+
+#region SERVICES
+builder.Services.AddScoped<IPernsamentoService, PensamentoService>();
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
