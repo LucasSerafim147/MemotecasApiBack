@@ -1,0 +1,6 @@
+@MemotecasApi_HostAddress = http://localhost:5244
+
+GET {{MemotecasApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
