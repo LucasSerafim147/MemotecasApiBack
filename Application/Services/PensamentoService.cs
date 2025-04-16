@@ -41,23 +41,7 @@ public class PensamentoService : IPensamentoService
         }
     }
 
-    public Task<bool> AtualizarPensamento(Pensamentos pensamentos)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<bool> RemoverPensamento(int id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<List<Pensamentos>> RetornarPensamento()
-    {
-        throw new NotImplementedException();
-    }
-
-    #region Validar Pensamento
-    private void validarPensamentos(PensamentosDto pensamentos)
+    public async Task<bool> AtualizarPensamento(int id, Pensamentos pensamentos)
     {
         if (string.IsNullOrWhiteSpace(pensamentos.Pensamento))
             throw new Exception("O pensamento é obrigatório.");
@@ -68,6 +52,43 @@ public class PensamentoService : IPensamentoService
         if (pensamentos.Modelos <= 0)
             throw new Exception("O modelo do pensamento deve ser maior que zero");
 
+        if (id != pensamentos.Id)
+            throw new ArgumentException("O ID fornecido não corresponde ao ID do pensamento.", nameof(id));
+        if (id <= 0)
+            throw new ArgumentException("O ID deve ser maior que zero.", nameof(id));
+
+
+        return await _pensamentosRepository.AtualizarPensamento(pensamentos);
     }
-    #endregion
+
+    public async Task<bool> RemoverPensamento(int id)
+    {
+        try
+        {
+            if (id <= 0)
+                throw new ArgumentException("O ID deve ser maior que zero.", nameof(id));
+
+            return await _pensamentosRepository.RemoverPensamento(id);
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
+    }
+
+    public async Task<List<Pensamentos>> RetornarPensamento()
+    {
+        try
+        {
+            var pensamentos = await _pensamentosRepository.RetornarPensamento();
+            return _mapper.Map<List<Pensamentos>>(pensamentos);
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
+    }
+
 }

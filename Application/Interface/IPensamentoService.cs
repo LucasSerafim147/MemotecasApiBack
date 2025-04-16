@@ -12,7 +12,7 @@ namespace Application.Interface
     {
         Task<bool> AdicionarPensamento(PensamentosDto pensamentosDto);
         Task<bool> RemoverPensamento(int id);
-        Task<bool> AtualizarPensamento(Pensamentos pensamentos);
+        Task<bool> AtualizarPensamento(int id, Pensamentos pensamentos);
         Task<List<Pensamentos>> RetornarPensamento();
 
     }

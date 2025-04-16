@@ -25,6 +25,8 @@ builder.Services.AddScoped<IPensamentoService, PensamentoService>();
 
 #endregion
 
+#region REPOSITORIOS
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
