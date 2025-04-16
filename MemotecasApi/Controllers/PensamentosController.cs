@@ -19,17 +19,20 @@ namespace MemotecasApi.Controllers
 
 
         [HttpPost("pensamento")]
-        public IActionResult AdicionarPensamento(PensamentosDto pensamentos)
+        public IActionResult AdicionarPensamento([FromBody] PensamentosDto pensamentos)
         {
             try
             {
-                var pensamento = _service.AdicionarPensamento(pensamentos);
-                return Created();
+                var id = _service.AdicionarPensamento(pensamentos);
+                return CreatedAtAction(nameof(AdicionarPensamento), new { id }, pensamentos);
             }
-            catch (Exception)
+            catch (ArgumentException ex)
             {
-
-                throw;
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Erro interno ao adicionar o pensamento: {ex.Message}");
             }
         }
         [HttpGet("pensamento")]
@@ -39,10 +42,10 @@ namespace MemotecasApi.Controllers
             {
                 return Ok(_service.RetornarPensamento());
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                return StatusCode(500, $"Erro interno ao retornar pensamentos: {ex.Message}");
             }
         }
 

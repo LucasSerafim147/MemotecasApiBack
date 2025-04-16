@@ -10,7 +10,7 @@ namespace Application.Interface
 {
     public interface IPensamentoService
     {
-        Task<bool> AdicionarPensamento(PensamentosDto pensamentosDto);
+        Task<int> AdicionarPensamento(PensamentosDto pensamentosDto);
         Task<bool> RemoverPensamento(int id);
         Task<bool> AtualizarPensamento(int id, Pensamentos pensamentos);
         Task<List<Pensamentos>> RetornarPensamento();

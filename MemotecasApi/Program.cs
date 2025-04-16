@@ -1,4 +1,5 @@
 using System.Data;
+using System.Data.Common;
 using Application.Interface;
 using Application.Services;
 using Infrastructure.Interface;
@@ -14,7 +15,7 @@ builder.Services.AddAutoMapper(typeof(Program));
 
 string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-builder.Services.AddScoped<IDbConnection>(provider =>
+builder.Services.AddScoped<DbConnection>(provider =>
 {
     SqlConnection connection = new SqlConnection(connectionString);
     connection.Open();

@@ -18,11 +18,11 @@ namespace Infrastructure.Repository
             _mapper = mapper;
         }
 
-        public async Task<bool> AdicionarPensamento(Pensamentos pensamentos)
+        public async Task<int> AdicionarPensamento(Pensamentos pensamentos)
         {
             try
             {
-                string sql = @"INSERT INT ALUNOS(PENSAMENTO,AUTOR,MODEL) VALUES(@PENSAMENTO,@AUTOR,@MODELO)";
+                string sql = @"INSERT INTO PENSAMENTOS(PENSAMENTO,AUTOR,MODELO) VALUES(@PENSAMENTO,@AUTOR,@MODELO)";
 
                 var parametros = new
                 {
@@ -31,9 +31,13 @@ namespace Infrastructure.Repository
                     MODELO = pensamentos.Modelos
                 };
 
-                var resultado = await _conn.ExecuteAsync(sql, parametros);
+                if (_conn.State != System.Data.ConnectionState.Open)
+                    await _conn.OpenAsync();
 
-                return resultado > 0;
+                var id = await _conn.ExecuteScalarAsync<int>(sql, parametros);
+                await _conn.CloseAsync();
+
+                return id;
             }
             catch (Exception)
             {
