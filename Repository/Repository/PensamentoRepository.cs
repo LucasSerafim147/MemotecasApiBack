@@ -1,5 +1,5 @@
 ﻿using System.Data;
-using System.Data.Common;
+using api_gerenciamento_cursos.Domain;
 using AutoMapper;
 using Dapper;
 using Domain.Models;
@@ -103,5 +103,36 @@ namespace Infrastructure.Repository
                 throw;
             }
         }
+
+        public async Task<RetornoPaginado<Pensamentos>> RetornoPagiandoPensamentos(int quantidade, int pagina)
+        {
+            try
+            {
+                string sql = "SELECT * FROM PENSAMENTOS ORDER BY ID OFFSET @OFFSET ROWS FETCH NEXT @QUANTIDADE ROWS ONLY";
+
+                var parametros = new
+                {
+                    OFFSET = (pagina - 1) * quantidade,
+                    QUANTIDADE = quantidade
+                };
+
+                var pensamentos = await _conn.QueryAsync<Pensamentos>(sql, parametros);
+                var totalPensamentos = "SELECT COUNT(*) FROM PENSAMENTOS";
+
+                var retornoTotalPensamentos = await _conn.ExecuteScalarAsync<int>(totalPensamentos);
+
+                var retornoPaginado = new RetornoPaginado<Pensamentos>
+                {
+                    TotalRegistros = retornoTotalPensamentos,
+                    Pagina = pagina,
+                    QtdPagina = quantidade,
+                    Retorno = pensamentos.ToList()
+                };
+
+                return retornoPaginado;
+            }
+            catch (Exception ex) { throw; }
+        }
     }
-}
+    }
+

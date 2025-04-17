@@ -3,6 +3,7 @@ using Infrastructure.Interface;
 using Domain.Models;
 using AutoMapper;
 using Domain.Dtos;
+using api_gerenciamento_cursos.Domain;
 namespace Application.Services;
 
 
@@ -92,4 +93,17 @@ public class PensamentoService : IPensamentoService
         }
     }
 
+    public async Task<RetornoPaginado<Pensamentos>> RetornoPagiandoPensamentos(int quantidade, int pagina)
+    {
+        try
+        {
+            var pensamentos = await _pensamentosRepository.RetornoPagiandoPensamentos(quantidade, pagina);
+            return pensamentos;
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
+    }
 }

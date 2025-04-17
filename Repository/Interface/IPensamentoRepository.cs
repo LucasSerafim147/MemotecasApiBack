@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using api_gerenciamento_cursos.Domain;
 using Domain.Models;
 
 namespace Infrastructure.Interface
@@ -13,6 +9,7 @@ namespace Infrastructure.Interface
         Task<bool> RemoverPensamento(int id);
         Task<bool> AtualizarPensamento(Pensamentos pensamentos);
         Task<List<Pensamentos>> RetornarPensamento();
+        Task<RetornoPaginado<Pensamentos>> RetornoPagiandoPensamentos(int quantidade, int pagina);
 
 
     }

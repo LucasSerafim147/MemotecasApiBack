@@ -1,9 +1,10 @@
-﻿namespace GerenciamentoCurso.Domain;
-
-public class RetornoPaginadoAlunos<T> where T : class
+﻿namespace api_gerenciamento_cursos.Domain
 {
-    public int TotalRegistro { get; set; }
-    public int Pagina { get; set; }
-    public int QtdPagina { get; set; }
-    public List<T>? Retorno { get; set; }
+    public class RetornoPaginado<T> where T : class
+    {
+        public int TotalRegistros { get; set; }
+        public int Pagina { get; set; }
+        public int QtdPagina { get; set; }
+        public List<T> Retorno { get; set; }
+    }
 }

@@ -79,5 +79,18 @@ namespace MemotecasApi.Controllers
             }
         }
 
+        [HttpGet("buscar-pagina/{pagina}/{quantidade}")]
+        public async Task<IActionResult> BuscarPorPagina(int pagina, int quantidade)
+        {
+            try
+            {
+                var pensamento = await _service.RetornoPagiandoPensamentos(pagina, quantidade);
+                if (pensamento == null)
+                    return NotFound("Nenhum pensamento encontrado.");
+                return Ok(pensamento);
+            }
+            catch (Exception ex) { throw; }
+        }
+
     }
 }
