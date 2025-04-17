@@ -57,6 +57,7 @@ public class PensamentoService : IPensamentoService
             throw new ArgumentException("O ID deve ser maior que zero.", nameof(id));
 
         var pensamento = _mapper.Map<Pensamentos>(pensamentosDto);
+        pensamento.Id = id;
 
         return await _pensamentosRepository.AtualizarPensamento(pensamento);
     }

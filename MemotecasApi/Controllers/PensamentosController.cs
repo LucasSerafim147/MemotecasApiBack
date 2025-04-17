@@ -50,11 +50,11 @@ namespace MemotecasApi.Controllers
         }
 
         [HttpPut("pensamento")]
-        public async Task<IActionResult> AtualizarPensamento(int id,Pensamentos pensamentos)
+        public async Task<IActionResult> AtualizarPensamento(int id,[FromBody]PensamentosDto pensamentosDto)
         {
             try
             {
-                var pensamento =  await _service.AtualizarPensamento(id, pensamentos);
+                var pensamento =  await _service.AtualizarPensamento(id, pensamentosDto);
                 return Ok(pensamento);
             }
             catch (Exception)
