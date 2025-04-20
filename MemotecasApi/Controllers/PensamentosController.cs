@@ -1,4 +1,6 @@
-﻿using Application.Interface;
+﻿using System.Text.Json;
+using Application.Interface;
+using Application.Services;
 using Domain.Dtos;
 using Domain.Models;
 using Microsoft.AspNetCore.Http;
@@ -20,32 +22,27 @@ namespace MemotecasApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AdicionarPensamento([FromBody] PensamentosDto pensamentos)
+        public async Task<ActionResult<PensamentosDto>> AdicionarPensamento([FromBody] PensamentosDto pensamentoDto)
         {
             try
             {
-                _logger.LogInformation("Recebido payload: {@Pensamentos}", pensamentos);
-                var id = await _service.AdicionarPensamento(pensamentos);
-                _logger.LogInformation("Pensamento criado com ID: {Id}", id);
-                return CreatedAtAction(nameof(AdicionarPensamento), new { id }, pensamentos);
-            }
-            catch (ArgumentException ex)
-            {
-                _logger.LogWarning("Erro de validação: {Message}", ex.Message);
-                return BadRequest(ex.Message);
+                var resultado = await _service.AdicionarPensamento(pensamentoDto);
+                return Ok(resultado); 
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro interno ao adicionar pensamento: {Message}", ex.Message);
-                return StatusCode(500, $"Erro interno ao adicionar o pensamento: {ex.Message}");
+                return BadRequest(ex.Message);
             }
         }
+        
         [HttpGet]
         public async Task<IActionResult> RetornarPensamentos()
         {
             try
             {
-                return Ok(await _service.RetornarPensamento());
+                var pensamentos = await _service.RetornarPensamento();
+                Console.WriteLine(JsonSerializer.Serialize(pensamentos));
+                    return Ok(pensamentos);
             }
             catch (Exception ex)
             {
@@ -55,11 +52,11 @@ namespace MemotecasApi.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> AtualizarPensamento(int id,[FromBody]PensamentosDto pensamentosDto)
+        public async Task<IActionResult> AtualizarPensamento(int id, [FromBody] PensamentosDto pensamentosDto)
         {
             try
             {
-                var pensamento =  await _service.AtualizarPensamento(id, pensamentosDto);
+                var pensamento = await _service.AtualizarPensamento(id, pensamentosDto);
                 return Ok(pensamento);
             }
             catch (Exception)

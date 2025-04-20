@@ -9,7 +9,9 @@ namespace Application.Profiles
         public PensamentosProfile() {
 
 
-            CreateMap<PensamentosDto, Pensamentos>();
+            CreateMap<PensamentosDto, Pensamentos>()
+            .ForMember(dest => dest.Modelos, opt => opt.MapFrom(src => src.Modelos))
+            .ReverseMap();
 
         }
 

@@ -37,7 +37,10 @@ builder.Services.AddScoped<IPensamentoRepository, PensamentoRepository>();
 
 #endregion
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options => {
+    options.JsonSerializerOptions.PropertyNamingPolicy = null; // Mantém PascalCase
+    options.JsonSerializerOptions.WriteIndented = true; // Para debug
+});
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngularApp", builder =>

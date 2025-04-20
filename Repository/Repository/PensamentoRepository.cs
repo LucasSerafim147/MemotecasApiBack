@@ -19,25 +19,26 @@ namespace Infrastructure.Repository
             _mapper = mapper;
         }
 
-        public async Task<bool> AdicionarPensamento(Pensamentos pensamentos)
+        public async Task<int> AdicionarPensamento(Pensamentos pensamentos)
         {
             try
             {
-                string sql = @"INSERT INTO PENSAMENTOS(PENSAMENTO,AUTOR,MODELO) VALUES(@PENSAMENTO,@AUTOR,@MODELO)";
+                string sql = @"INSERT INTO PENSAMENTOS(PENSAMENTO,AUTOR,MODELOS) VALUES(@PENSAMENTO,@AUTOR,@MODELOS);
+                SELECT CAST(SCOPE_IDENTITY() AS INT)";
 
                 var parametros = new
                 {
                     PENSAMENTO = pensamentos.Pensamento,
                     AUTOR = pensamentos.Autor,
-                    MODELO = pensamentos.Modelos
+                    MODELOS = pensamentos.Modelos
                 };
 
                    
 
-                var resultado = await _conn.ExecuteScalarAsync<bool>(sql, parametros);
+                var id = await _conn.ExecuteScalarAsync<int>(sql, parametros);
                 
 
-                return resultado;
+                return id;
             }
             catch (Exception)
             {
@@ -50,13 +51,13 @@ namespace Infrastructure.Repository
         {
             try
             {
-                string sql = @"UPDATE PENSAMENTOS SET PENSAMENTO = @PENSAMENTO, AUTOR = @AUTOR, MODELO = @MODELO WHERE ID = @ID";
+                string sql = @"UPDATE PENSAMENTOS SET PENSAMENTO = @PENSAMENTO, AUTOR = @AUTOR, MODELOS = @MODELOS WHERE ID = @ID";
 
                 var paramentros = new
                 {
                     PENSAMENTO = pensamentos.Pensamento,
                     AUTOR = pensamentos.Autor,
-                    MODELO = pensamentos.Modelos,
+                    MODELOS = pensamentos.Modelos    ,
                     ID = pensamentos.Id
                 };
 

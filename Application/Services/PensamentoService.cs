@@ -4,6 +4,7 @@ using Domain.Models;
 using AutoMapper;
 using Domain.Dtos;
 using api_gerenciamento_cursos.Domain;
+using Microsoft.Extensions.Logging;
 namespace Application.Services;
 
 
@@ -11,33 +12,43 @@ public class PensamentoService : IPensamentoService
 {
     private readonly IPensamentoRepository _pensamentosRepository;
     private readonly IMapper _mapper;
+    private readonly ILogger<PensamentoService> _logger;
 
-    public PensamentoService(IPensamentoRepository pensamentosRepository, IMapper mapper)
+    public PensamentoService(IPensamentoRepository pensamentosRepository, IMapper mapper, ILogger<PensamentoService> logger)
     {
         _pensamentosRepository = pensamentosRepository;
         _mapper = mapper;
+        _logger = logger;
     }
 
-    public async Task<bool> AdicionarPensamento(PensamentosDto pensamentosDto)
+    public async Task<PensamentosDto> AdicionarPensamento(PensamentosDto pensamentosDto)
     {
         try
         {
-            if (string.IsNullOrWhiteSpace(pensamentosDto.Pensamento))
-                throw new Exception("O pensamento é obrigatório.");
+            _logger.LogInformation("DTO recebido: Modelos = {Modelos}", pensamentosDto.Modelos);
 
-            if (string.IsNullOrWhiteSpace(pensamentosDto.Autor))
-                throw new Exception("O autor é obrogatório");
+            var pensamento = new Pensamentos
+            {
+                Pensamento = pensamentosDto.Pensamento,
+                Autor = pensamentosDto.Autor,
+                Modelos = pensamentosDto.Modelos
+            };
 
-            if (pensamentosDto.Modelos <= 0)
-                throw new Exception("O modelo do pensamento deve ser maior que zero");
+            _logger.LogInformation("Objeto mapeado: Modelos = {Modelos}", pensamento.Modelos);
 
-            var pensamentos = _mapper.Map<Pensamentos>(pensamentosDto);
+            var id = await _pensamentosRepository.AdicionarPensamento(pensamento);
 
-            return await _pensamentosRepository.AdicionarPensamento(pensamentos);
+          
+            return new PensamentosDto
+            {
+                Pensamento = pensamentosDto.Pensamento,
+                Autor = pensamentosDto.Autor,
+                Modelos = pensamentosDto.Modelos   
+            };
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-
+            _logger.LogError(ex, "Erro ao adicionar pensamento");
             throw;
         }
     }

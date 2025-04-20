@@ -11,5 +11,7 @@ namespace Domain.Dtos
         public string? Pensamento { get; set; }
         public string? Autor { get; set; }
         public int Modelos { get; set; }
+
+
     }
 }
