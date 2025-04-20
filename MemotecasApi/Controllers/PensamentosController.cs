@@ -12,18 +12,18 @@ namespace MemotecasApi.Controllers
     {
         private readonly IPensamentoService _service;
 
-        public  PensamentosController(IPensamentoService service)
+        public PensamentosController(IPensamentoService service)
         {
             _service = service;
         }
 
 
-        [HttpPost("pensamento")]
+        [HttpPost]
         public async Task<IActionResult> AdicionarPensamento([FromBody] PensamentosDto pensamentos)
         {
             try
             {
-                var id =  await _service.AdicionarPensamento(pensamentos);
+                var id = await _service.AdicionarPensamento(pensamentos);
                 return CreatedAtAction(nameof(AdicionarPensamento), new { id }, pensamentos);
             }
             catch (ArgumentException ex)
@@ -35,12 +35,12 @@ namespace MemotecasApi.Controllers
                 return StatusCode(500, $"Erro interno ao adicionar o pensamento: {ex.Message}");
             }
         }
-        [HttpGet("pensamento")]
+        [HttpGet]
         public async Task<IActionResult> RetornarPensamentos()
         {
             try
             {
-                return Ok( await _service.RetornarPensamento());
+                return Ok(await _service.RetornarPensamento());
             }
             catch (Exception ex)
             {
@@ -49,7 +49,7 @@ namespace MemotecasApi.Controllers
             }
         }
 
-        [HttpPut("pensamento")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> AtualizarPensamento(int id,[FromBody]PensamentosDto pensamentosDto)
         {
             try
@@ -64,7 +64,7 @@ namespace MemotecasApi.Controllers
             }
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeletarPensamento(int id)
         {
             try
@@ -79,7 +79,7 @@ namespace MemotecasApi.Controllers
             }
         }
 
-        [HttpGet("buscar-pagina/{pagina}/{quantidade}")]
+        [HttpGet("{pagina}/{quantidade}")]
         public async Task<IActionResult> BuscarPorPagina(int pagina, int quantidade)
         {
             try
