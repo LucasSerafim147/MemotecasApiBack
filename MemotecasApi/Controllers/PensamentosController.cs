@@ -11,27 +11,32 @@ namespace MemotecasApi.Controllers
     public class PensamentosController : ControllerBase
     {
         private readonly IPensamentoService _service;
+        private readonly ILogger<PensamentosController> _logger;
 
-        public PensamentosController(IPensamentoService service)
+        public PensamentosController(IPensamentoService service, ILogger<PensamentosController> logger)
         {
             _service = service;
+            _logger = logger;
         }
-
 
         [HttpPost]
         public async Task<IActionResult> AdicionarPensamento([FromBody] PensamentosDto pensamentos)
         {
             try
             {
+                _logger.LogInformation("Recebido payload: {@Pensamentos}", pensamentos);
                 var id = await _service.AdicionarPensamento(pensamentos);
+                _logger.LogInformation("Pensamento criado com ID: {Id}", id);
                 return CreatedAtAction(nameof(AdicionarPensamento), new { id }, pensamentos);
             }
             catch (ArgumentException ex)
             {
+                _logger.LogWarning("Erro de validação: {Message}", ex.Message);
                 return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Erro interno ao adicionar pensamento: {Message}", ex.Message);
                 return StatusCode(500, $"Erro interno ao adicionar o pensamento: {ex.Message}");
             }
         }
