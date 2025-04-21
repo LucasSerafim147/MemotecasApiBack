@@ -1,9 +1,55 @@
+using System.Data;
+using System.Data.Common;
+using Application.Interface;
+using Application.Profiles;
+using Application.Services;
+using Infrastructure.Interface;
+using Infrastructure.Repository;
+using Microsoft.Data.SqlClient;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+builder.Services.AddAutoMapper(typeof(PensamentosProfile));
+
+string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+builder.Services.AddScoped<IDbConnection>(provider =>
+{
+    SqlConnection connection = new SqlConnection(connectionString);
+    connection.Open();
+    return connection;
+});
+
+
+
+#region SERVICES
+builder.Services.AddScoped<IPensamentoService, PensamentoService>();
+
+#endregion
+
+#region REPOSITORIOS
+
+builder.Services.AddScoped<IPensamentoRepository, PensamentoRepository>();
+
+
+#endregion
+
+builder.Services.AddControllers().AddJsonOptions(options => {
+    options.JsonSerializerOptions.PropertyNamingPolicy = null; // Mantém PascalCase
+    options.JsonSerializerOptions.WriteIndented = true; // Para debug
+});
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngularApp", builder =>
+    {
+        builder.WithOrigins("http://localhost:4200")
+               .AllowAnyHeader()
+               .AllowAnyMethod();
+    });
+});
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -19,7 +65,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-
+app.UseCors("AllowAngularApp");
 app.MapControllers();
 
 app.Run();
