@@ -81,7 +81,7 @@ namespace MemotecasApi.Controllers
             }
         }
 
-        [HttpGet("{pagina}/{quantidade}")]
+        [HttpGet("{quantidade}/{pagina}")]
         public async Task<IActionResult> BuscarPorPagina(int pagina, int quantidade)
         {
             try
